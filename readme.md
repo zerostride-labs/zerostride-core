@@ -1,19 +1,19 @@
 # ZeroStride
 
-ZeroStride es un motor de inferencia experimental en C++ enfocado en la ejecución de modelos Mixture-of-Experts (MoE) en hardware con restricciones de memoria física.
+ZeroStride is an experimental C++ inference runtime focused on executing Mixture-of-Experts (MoE) models on hardware with physical memory constraints.
 
-El objetivo del proyecto es investigar y evaluar técnicas para mitigar la variabilidad en los tiempos de generación provocada por la paginación del sistema operativo (*page faults*), explorando:
+The goal of the project is to investigate and evaluate techniques to mitigate token generation latency jitter caused by OS paging (*page faults*), exploring:
 
-- Asignación estática de memoria y eliminación de reservas dinámicas en el bucle de inferencia.
-- Streaming predictivo y asíncrono de pesos de expertos desde almacenamiento secundario.
-- Uso de memoria acotada y determinista durante la decodificación.
+- Static memory allocation and zero dynamic allocations within the inference hot loop.
+- Predictive and asynchronous streaming of expert weights from secondary storage.
+- Bounded and deterministic memory consumption during decoding.
 
-Proyecto inspirado en herramientas del ecosistema abierto como `llama.cpp` y `strata`.
+Inspired by open ecosystem work such as `llama.cpp` and `strata`.
 
-## Estado
+## Status
 
-Fase temprana de diseño e investigación técnica.
+Early technical research and design phase.
 
-## Licencia
+## License
 
-Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
