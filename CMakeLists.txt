@@ -39,7 +39,11 @@ endif()
 # Core static library
 add_library(zerostride_core STATIC
     src/platform/os_resources.cpp
+    src/platform/file_io.cpp
     src/core/telemetry.cpp
+    src/memory/static_arena.cpp
+    src/memory/alloc_guard.cpp
+    src/format/gguf_index.cpp
 )
 
 target_include_directories(zerostride_core
@@ -54,18 +58,29 @@ if(TARGET ggml)
     target_link_libraries(zerostride_core PUBLIC ggml)
 endif()
 
-# Empirical benchmark & telemetry CLI tool
-add_executable(zs-bench
-    tools/zs-bench/main.cpp
-)
+# CLI tools
+add_executable(zs-bench tools/zs-bench/main.cpp)
 target_include_directories(zs-bench PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_link_libraries(zs-bench PRIVATE zerostride_core)
 
+add_executable(zs-inspect tools/zs-inspect/main.cpp)
+target_include_directories(zs-inspect PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_link_libraries(zs-inspect PRIVATE zerostride_core)
+
 # Unit tests
 enable_testing()
-add_executable(test_telemetry
-    tests/test_telemetry.cpp
-)
+
+add_executable(test_telemetry tests/test_telemetry.cpp)
 target_include_directories(test_telemetry PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_link_libraries(test_telemetry PRIVATE zerostride_core)
 add_test(NAME test_telemetry COMMAND test_telemetry)
+
+add_executable(test_arena tests/test_arena.cpp)
+target_include_directories(test_arena PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_link_libraries(test_arena PRIVATE zerostride_core)
+add_test(NAME test_arena COMMAND test_arena)
+
+add_executable(test_gguf_index tests/test_gguf_index.cpp)
+target_include_directories(test_gguf_index PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_link_libraries(test_gguf_index PRIVATE zerostride_core)
+add_test(NAME test_gguf_index COMMAND test_gguf_index)
